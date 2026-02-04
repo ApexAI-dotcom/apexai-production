@@ -14,4 +14,3 @@ def health():
 
 # Handler Vercel
 handler = Mangum(app, lifespan="off")
-s
