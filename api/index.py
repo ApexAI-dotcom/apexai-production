@@ -1,32 +1,15 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 
-app = FastAPI(
-    title="ApexAI API",
-    description="AI-powered racing telemetry analysis",
-    version="1.0.0"
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI()
 
 @app.get("/")
+@app.get("/api")
 def read_root():
-    return {
-        "message": "ApexAI API",
-        "version": "1.0.0",
-        "status": "operational"
-    }
-
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
+    return {"message": "ApexAI API", "status": "operational"}
 
 @app.get("/api/health")
-def api_health():
+def health():
     return {"status": "healthy", "version": "1.0.0"}
+
+handler = Mangum(app)
